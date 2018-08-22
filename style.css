@@ -1,0 +1,41 @@
+/*@import url('https://fonts.googleapis.com/css?family=Electrolize');*/
+body {
+        color: white;
+        background-color: black;
+        font-family: 'electrolize', sans-serif;
+    }
+submitbody {
+    color: green;
+    background-color: black;
+    font-family: 'electrolize', sans-serif;
+}
+.box-function {
+    border: solid;
+    border-color: white;
+}
+    .button {
+    background-color: black;
+    border-color: white;
+    border-style: solid;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: 'electrolize', sans-serif;
+    opacity: 0.9;
+    }
+    .button:hover {
+        font-size: 18px;
+        opacity: 2;
+    }
+    textarea {
+        height: 150px;
+        width: 800px;
+    }
+    .inputtext {
+        width: 400px;
+    }

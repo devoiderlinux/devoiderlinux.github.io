@@ -1,0 +1,62 @@
+<html>
+    <head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+
+    <body>
+        <h2> Installing Devoid GNU/Linux is not beginner-friendly. If you aren't """advanced""" at UNIX and alike, you probably shouldn't be here. </h2>
+
+        <h3>To begin, you need a live ISO, you can get that <a href='download.php?page=iso'>here</a></h3>
+        <p>Upon booting from it, you will come across three options. Select the first one. RAM-based Devoid is very unstable now.</p>
+        <p>Soon, you will be met with a login screen. Login as root, with the password "voidlinux" (no reason to change the password)</p>
+        <p>First, test your internet connection. Do "ping 8.8.8.8" to see if you're online. If you aren't, run "ip link" and then do "dhcpcd [adapter-name-from-ip-link]"</p>
+        <p>If you're using Wi-Fi, install wpa_supplicant and go from there. Look up tutorials on wpa_supplicant if you're unsure. Install any drivers if neccessary as well. b43-fwcutter is preinstalled on the live cd, along with its propertiary blobs. Run b43-unfree-install if you want to have wifi on this live cd. It /voids/ your freedom however.</p>
+        
+        <h3>Once you login into the live CD, you need to partition your installation medium</h3>
+        <p>Partition it so that you have /dev/sda1 as your root, and /dev/sda2 as your boot. Make sure that they are both type 83. If you aren't sure what that means, it will become apparent later. Then, mark your /dev/sda2 as bootable.</p>
+        <p>You can use fdisk or cfdisk to do this. Again, if you do not know how to do this, you shouldn't be here.</p>
+        <p>NOTE: if you aren't able to mark your boot partition as bootable, use cfdisk or fdisk to add a parition of type 'BIOS Boot' of which is EXACTLY 32 MB.</p>
+        <p>Then, format your partitions as EXT4 by doing "mkfs.ext4 /dev/sda1 && mkfs.ext4 /dev/sda2</p>
+        
+        <h3>After partitioning your disks, you need to create mountpoints and mount your drive.</h3>
+        <p>Create mountpoint "devoid_mnt" by doing "mkdir -p /mnt/devoid_mnt"</p>
+        <p>Mount /dev/sda1 to "devoid_mnt" by doing "mount /dev/sda1 /mnt/devoid_mnt</p>
+
+        <h3>You need to get your rootfs now. Luckily, Devoid comes with programs to make this breeze by.</h3>
+        <p>Extract rootfs from main repository by doing "devoid-rootfs --main /mnt/devoid_mnt" [RECOMMENDED]</p>
+        <p>Or, you can get and extract a tarball (tar.gz) from somewhere and put it on your mountpoint by doing "devoid-rootfs --wget-url /mnt/devoid_mnt"</p>
+
+        <h3>Before we chroot into our system, we need to configure some files. (USE VI OR WASTE SPACE INSTALLING NANO)</h3>
+        <p>Although on Devoid the /mnt/devoid_mnt/etc/resolv.conf file is preconfigured, it is still recommended that you put what you want into it. To use (botnet) google's dns servers, put "nameserver 8.8.8.8" into it. If you enjoy your freedom, leave it alone. By default, it uses FreeDNS.</p>
+        <p>Edit your /mnt/devoid_mnt/etc/fstab. Follow the directions in there.</p>
+        <p>You might want to configure your time.. use "/etc/[region]/[city] >> /mnt/devoid_mnt/etc/localtime"</p>
+
+        <h3>Now it is time to chroot into our rootfs.</h3>
+        <p>Do this by executing "devoid-chroot /mnt/devoid_mnt"</p>
+        <p>You notice that your shell changed. You are now logged into your rootfs, as if you had just installed it! But, we need to do more.</p>
+
+        <p>[IMPORTANT] It is very important that you mount /boot. Do it now by doing "mount /dev/sda2 /boot". Once you install Linux (the kernel) it will look for a /boot partition, and if it isn't there Grub won't work correctly! </p>
+        <p>[IMPORTANT] It is semi-crucial that you update your system. Do this by doing "xbps-install -Su"</p>
+
+        <h3>Installing Linux</h3>
+        <p>You need to install Linux now. (MAKE SURE YOUR BOOT PARTITION IS MOUNTED TO /BOOT NOW!)</p>
+        <p>Install Linux by doing "xbps-install -S linux"</p>
+
+        <h3>Adding a user.</h3>
+        <p>To add a user, do "useradd --create-home [user]"</p>
+        <p>To set the password for the user, do "passwd [user]" and input the password to stdin</p>
+
+        <h3>Installing and Configuring sudo</h3>
+        <p>To install sudo, install it with xbps-install (xbps-install -S sudo)</p>
+        <p>After installing, execute "visudo" and add the lines "[yournewusername] ALL=(ALL) ALL"</p>
+
+        <h3>Installing GRUB</h3>
+        <p>To install grub, you need to install it by doing "xbps-install -S grub" </p>
+        <p>Then, do "grub-install /dev/sda". Grub is now installed but yet to be configured.</p>
+        <p>To configure grub and to detect all other OS'es, run "grub-mkconfig -o /boot/grub/grub.cfg"</p>
+        
+        <h2>You are now done installing Void / Devoid GNU/Linux </h2>
+
+
+    </body>
+</html> 
